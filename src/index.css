@@ -1,0 +1,525 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════
+   BASE TOKENS
+═══════════════════════════════════════════════ */
+@layer base {
+  :root {
+    --cream: #F7F0E6; /* Light Coachella cream background */
+    --cream-dark: #EFE6D5; /* Sand beige sections */
+    --cream-light: #FFFFFF; /* White card background */
+    --ink: #111111; /* Dark Charcoal text */
+    --ink-muted: #444444; /* Medium gray body text */
+    --sage: #B8860B; /* Dark gold accent */
+    --sage-light: #FAF2E2; /* Soft gold light background */
+    --lavender: #C5A880; /* Secondary gold accent */
+    --lavender-light: #FAF6EE;
+    --background: 40 30% 95%;
+    --foreground: 30 30% 10%;
+    --border: 35 20% 82%;
+    --radius: 1.25rem;
+    --primary: 43 50% 50%;
+    --primary-foreground: 0 0% 100%;
+    --muted: 35 20% 87%;
+    --muted-foreground: 35 15% 40%;
+    --card: 35 25% 95%;
+    --card-foreground: 30 30% 10%;
+    --secondary: 40 40% 70%;
+    --secondary-foreground: 270 30% 15%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --accent: 35 20% 87%;
+    --accent-foreground: 30 30% 10%;
+    --popover: 35 25% 95%;
+    --popover-foreground: 30 30% 10%;
+    --input: 35 20% 82%;
+    --ring: 43 50% 50%;
+
+    /* Booking/Event theming fallbacks */
+    --booking-accent-rgb: 184, 134, 11;
+    --booking-label: var(--sage);
+    --booking-border: rgba(184, 134, 11, 0.18);
+    --booking-card-shadow: 0 8px 32px rgba(184, 134, 11, 0.08);
+    --booking-card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    --booking-map-glow: 0 8px 32px rgba(184, 134, 11, 0.12);
+    --booking-map-backdrop: rgba(247, 240, 230, 0.75);
+    --booking-btn-gradient: linear-gradient(135deg, #B8860B 0%, #8B6508 100%);
+    --booking-surface-wash: var(--cream);
+  }
+
+  body.dark {
+    --cream: #0A0A0A; /* Dark background */
+    --cream-dark: #151515; /* Slightly lighter sections */
+    --cream-light: #111111; /* Dark card background */
+    --ink: #D4AF37; /* Elegant soft gold text in dark mode */
+    --ink-muted: #C5A880; /* Light gold / muted gold body text in dark mode */
+    --sage: #D4AF37; /* Elegant soft gold accent */
+    --sage-light: #2A2415; /* Soft gold dark background */
+    --lavender: #C5A880; /* Secondary gold accent */
+    --lavender-light: #1A1712;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --radius: 1.25rem;
+    --primary: 43 50% 50%;
+    --primary-foreground: 0 0% 0%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
+    --secondary: 40 40% 70%;
+    --secondary-foreground: 270 30% 15%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 100%;
+    --input: 0 0% 15%;
+    --ring: 43 50% 50%;
+
+    /* Booking/Event theming fallbacks */
+    --booking-accent-rgb: 212, 175, 55;
+    --booking-label: var(--sage);
+    --booking-border: rgba(212, 175, 55, 0.14);
+    --booking-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --booking-card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --booking-map-glow: 0 8px 32px rgba(212, 175, 55, 0.12);
+    --booking-map-backdrop: rgba(10, 10, 10, 0.75);
+    --booking-btn-gradient: linear-gradient(135deg, #D4AF37 0%, #AA8413 100%);
+    --booking-surface-wash: var(--cream);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BODY & GLOBAL
+═══════════════════════════════════════════════ */
+@layer base {
+  * { @apply border-border; box-sizing: border-box; }
+  
+  body {
+    background-color: var(--cream);
+    color: var(--ink-muted);
+    font-family: 'Inter', sans-serif; /* Elegant Inter font */
+    font-size: 19px; /* Increased font size */
+    min-height: 100vh;
+    position: relative;
+    font-weight: 500; /* Bolder by default */
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  }
+
+  /* ── Animated grain overlay on the entire page ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -100%;
+    width: 300%;
+    height: 300%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.08; /* Increased opacity for more texture */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+    animation: grain-anim 0.5s steps(1) infinite; /* Faster, more organic animation */
+  }
+
+  @keyframes grain-anim {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-1%, -1%); }
+    20% { transform: translate(-2%, 1%); }
+    30% { transform: translate(1%, -2%); }
+    40% { transform: translate(-1%, 2%); }
+    50% { transform: translate(-2%, -1%); }
+    60% { transform: translate(1%, 1%); }
+    70% { transform: translate(-1%, 1%); }
+    80% { transform: translate(1%, -1%); }
+    90% { transform: translate(0, 1%); }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    color: var(--ink);
+    transition: color 0.4s ease;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   TEXTURE UTILITIES
+═══════════════════════════════════════════════ */
+@layer utilities {
+
+  /* Grain overlay helper for any element */
+  .grain-el {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain-el::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+
+  /* ── Cream card ── */
+  .cream-card {
+    background-color: var(--cream-light);
+    border-radius: 20px;
+    border: 1.5px solid rgba(140, 120, 100, 0.18);
+    box-shadow:
+      0 6px 24px rgba(100,80,60,0.10),
+      0 1px 4px rgba(100,80,60,0.07),
+      inset 0 1px 0 rgba(255,255,255,0.55);
+  }
+
+  /* Booking shell: lift cream cards with event accent (CSS vars from EventContext theme pack) */
+  .booking-shell .cream-card {
+    transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.45s ease;
+    border-color: var(--booking-border, rgba(140, 120, 100, 0.18));
+    box-shadow:
+      var(--booking-card-shadow, 0 6px 24px rgba(100, 80, 60, 0.1)),
+      var(--booking-card-inset, inset 0 1px 0 rgba(255, 255, 255, 0.55));
+  }
+
+  /* ── Sage (pale green) button ── */
+  .btn-sage {
+    background-color: var(--sage);
+    color: #1c2e1c;
+    font-weight: 700;
+    border-radius: 999px;
+    border: 1.5px solid rgba(80,120,80,0.25);
+    box-shadow:
+      0 4px 14px rgba(80,140,80,0.22),
+      inset 0 1px 0 rgba(255,255,255,0.40),
+      inset 0 -2px 4px rgba(0,0,0,0.10);
+    transition: all 0.2s ease;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .booking-shell .btn-sage {
+    background-color: var(--booking-accent, var(--sage));
+    background-image: var(--booking-btn-gradient, none);
+    color: #000;
+  }
+  .btn-sage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .btn-sage:hover {
+    background-color: #8aaf86;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(80,140,80,0.30), inset 0 1px 0 rgba(255,255,255,0.45);
+  }
+  .btn-sage:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(80,140,80,0.18), inset 0 2px 4px rgba(0,0,0,0.12);
+  }
+
+  /* ── Lavender (pale purple) button ── */
+  .btn-lavender {
+    background-color: var(--lavender);
+    color: #241e36;
+    font-weight: 700;
+    border-radius: 999px;
+    border: 1.5px solid rgba(120,100,180,0.25);
+    box-shadow:
+      0 4px 14px rgba(120,100,200,0.22),
+      inset 0 1px 0 rgba(255,255,255,0.40),
+      inset 0 -2px 4px rgba(0,0,0,0.10);
+    transition: all 0.2s ease;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .booking-shell .btn-lavender {
+    background-color: var(--booking-accent, var(--lavender));
+    color: #000;
+  }
+  .btn-lavender::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .btn-lavender:hover {
+    background-color: #a89dc8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(120,100,200,0.30), inset 0 1px 0 rgba(255,255,255,0.45);
+  }
+  .btn-lavender:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(120,100,200,0.18), inset 0 2px 4px rgba(0,0,0,0.12);
+  }
+
+  /* ── Ink (dark) button ── */
+  .btn-ink {
+    background-color: var(--ink);
+    color: var(--cream);
+    font-weight: 700;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.08);
+    transition: all 0.2s ease;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .btn-ink::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0.12;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .btn-ink:hover {
+    background-color: #2e2618;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.40);
+  }
+
+  /* ── Cream input ── */
+  .cream-input {
+    background-color: rgba(255,252,248,0.85);
+    border: 1.5px solid rgba(140,120,100,0.22);
+    border-radius: 14px;
+    box-shadow: inset 0 2px 6px rgba(100,80,60,0.08), inset 0 -1px 2px rgba(255,255,255,0.6);
+    transition: all 0.2s ease;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+  .cream-input:focus {
+    outline: none;
+    border-color: var(--booking-accent, rgba(158,184,154,0.6));
+    box-shadow: inset 0 2px 6px rgba(100,80,60,0.08), 0 0 0 3px var(--booking-accent-soft, rgba(158,184,154,0.22));
+  }
+  .cream-input::placeholder {
+    color: rgba(90,80,64,0.45);
+  }
+
+  /* ── Grainy black section ── */
+  .grain-black {
+    background-color: #181410;
+    position: relative;
+    isolation: isolate;
+  }
+  .grain-black::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.08;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+  .grain-black > * { position: relative; z-index: 1; }
+
+  /* ── City ribbon ticker ── */
+  .ticker-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker-scroll 30s linear infinite;
+  }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes photo-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(90,80,64,0.25); border-radius: 99px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(90,80,64,0.45); }
+
+  /* Hide scrollbar */
+  .hide-scrollbar { scrollbar-width: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   DARK MODE OVERRIDES  (body.dark)
+═══════════════════════════════════════════════ */
+
+body.dark {
+  --cream:       #121212; /* Deep charcoal background */
+  --cream-dark:  #1C1C1C; /* Medium charcoal sections */
+  --cream-light: #242424; /* Light charcoal card backgrounds */
+  --ink:         #D4AF37; /* Gold typography */
+  --ink-muted:   #C5A880; /* Muted gold typography */
+  --sage:        #D4AF37; /* Elegant gold accent */
+  --sage-light:  #332A15; /* Dark gold tint */
+  --lavender:    #E5C158; /* Bright gold accent */
+  --lavender-light: #2D2510;
+  background-color: #121212;
+}
+
+/* More visible grain in dark mode */
+body.dark::before {
+  opacity: 0.09;
+}
+
+/* Cream card in dark */
+body.dark .cream-card {
+  background-color: var(--cream-light);
+  border-color: rgba(255,230,200,0.07);
+  box-shadow:
+    0 6px 24px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* Grain overlay in dark - slightly stronger */
+body.dark .grain-el::after {
+  opacity: 0.20;
+  mix-blend-mode: screen;
+}
+
+/* Cream input in dark */
+body.dark .cream-input {
+  background-color: var(--cream-dark);
+  border-color: rgba(255,230,200,0.10);
+  color: var(--ink);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.03);
+}
+body.dark .cream-input::placeholder {
+  color: rgba(154,142,122,0.5);
+}
+
+/* Navbar in dark */
+body.dark nav[class*="sticky"] {
+  background-color: var(--cream-light) !important;
+  border-color: rgba(255,230,200,0.07) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.5) !important;
+}
+
+/* Feature tab section in dark */
+body.dark section[class*="sticky"] {
+  background-color: var(--cream-dark) !important;
+  border-color: rgba(255,230,200,0.07) !important;
+}
+
+/* Ticker/ribbon text → ELEGANT GOLD Background, BLACK Text in dark */
+body.dark .ticker-container {
+  background-color: #D4AF37 !important;
+}
+body.dark .ticker-container .ticker-inner,
+body.dark .ticker-container .ticker-inner span,
+body.dark .ticker-container .ticker-inner * {
+  color: #000000 !important;
+  font-weight: 900;
+}
+
+/* Blinking eyes lid color for dark mode */
+body.dark .eye-lid {
+  background-color: #000000 !important;
+}
+
+/* Ensure initials are visible in dark mode */
+body.dark .profile-avatar {
+  background-color: #D4AF37 !important;
+  color: #000000 !important;
+}
+
+/* Ensure text has a gold/visible color in dark mode */
+body.dark {
+  color: var(--ink) !important;
+}
+body.dark p, body.dark h1, body.dark h2, body.dark h3, body.dark span {
+  color: var(--ink) !important;
+}
+/* Ensure text-ink utilities work in both themes */
+.text-ink { color: var(--ink) !important; }
+.text-ink-muted { color: var(--ink-muted) !important; }
+
+/* Existing dark mode text color overrides */
+body.dark .text-ink-muted, body.dark .text-muted-foreground {
+  color: var(--ink-muted) !important;
+}
+
+
+/* Footer → dark grey in dark mode */
+body.dark .grain-black {
+  background-color: #1a1814;
+}
+body.dark .grain-black::before {
+  opacity: 0.12;
+}
+
+/* Btn-ink inverted in dark */
+body.dark .btn-ink {
+  background-color: var(--cream-light);
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Page backgrounds transparent to show motion background */
+.min-h-screen, 
+main,
+.relative.min-h-screen,
+div[class*="min-h-screen"],
+body.dark main,
+body.dark [style*="var(--cream)"],
+body.dark .min-h-screen {
+  background-color: transparent !important;
+}
+
+/* Card Hover Reactions - site wide */
+.cream-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.cream-card:hover {
+  transform: translateY(-5px) scale(1.008) !important;
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 12px 36px rgba(212, 175, 55, 0.14), 
+              0 0 12px rgba(212, 175, 55, 0.08), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+
+body.dark .cream-card:hover {
+  border-color: rgba(212, 175, 55, 0.55) !important;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.65), 
+              0 0 16px rgba(212, 175, 55, 0.22), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Scrollbar for dark */
+body.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,230,200,0.15);
+}
+body.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,230,200,0.28);
+}
+
