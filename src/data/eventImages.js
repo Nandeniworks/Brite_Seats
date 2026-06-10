@@ -9,7 +9,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 12000,
     description: "Experience BTS live in their global comeback tour featuring immersive visuals, synchronized light shows, exclusive performances, and fan-favorite hits from every era.",
-    image: "/src/assets/events/concert-bts.jpg"
+    image: "/assets/events/concert-bts.jpg"
   },
   {
     id: "concert-coldplay",
@@ -20,7 +20,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 9500,
     description: "Experience the record-breaking Music Of The Spheres World Tour live, featuring spectacular lasers, fireworks, and LED wristbands.",
-    image: "/src/assets/events/concert-coldplay.jpg"
+    image: "/assets/events/concert-coldplay.jpg"
   },
   {
     id: "concert-arijit",
@@ -31,7 +31,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 4500,
     description: "The soul-stirring voice of India returns to the grand stage. Witness Arijit Singh perform his chart-topping melodies live in an immersive concert.",
-    image: "/src/assets/events/concert-arijit.jpg"
+    image: "/assets/events/concert-arijit.jpg"
   },
   {
     id: "concert-dualipa",
@@ -42,7 +42,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 8000,
     description: "Global pop superstar Dua Lipa brings her club-inspired pop anthems and electrifying choreography to Barcelona for an unforgettable summer night.",
-    image: "/src/assets/events/concert-dualipa.jpg"
+    image: "/assets/events/concert-dualipa.jpg"
   },
   {
     id: "concert-weeknd",
@@ -53,7 +53,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 11000,
     description: "A theatrical stadium odyssey featuring synth-pop rhythms, stunning sci-fi stage design, and all major hits from After Hours and Dawn FM.",
-    image: "/src/assets/events/concert-weeknd.jpg"
+    image: "/assets/events/concert-weeknd.jpg"
   },
   {
     id: "concert-edsheeran",
@@ -64,7 +64,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 8500,
     description: "Witness singer-songwriter Ed Sheeran perform hits from his mathematical albums live in a spectacular in-the-round stage setup at Wembley.",
-    image: "/src/assets/events/concert-edsheeran.jpg"
+    image: "/assets/events/concert-edsheeran.jpg"
   },
   {
     id: "concert-imaginedragons",
@@ -75,7 +75,7 @@ export const ALL_EVENTS = [
     category: "Concerts",
     ticketPrice: 7500,
     description: "Imagine Dragons bring their massive stadium energy and chart-topping anthems to Madrid for an electrifying night of live rock.",
-    image: "/src/assets/events/concert-imaginedragons.jpg"
+    image: "/assets/events/concert-imaginedragons.jpg"
   },
 
   // Football
@@ -88,7 +88,7 @@ export const ALL_EVENTS = [
     category: "Football",
     ticketPrice: 45000,
     description: "The biggest match in sporting history. Witness the crowning of the world football champions live at the MetLife Stadium.",
-    image: "/src/assets/events/football-fifa.jpg"
+    image: "/assets/events/football-fifa.jpg"
   },
   {
     id: "football-ucl",
@@ -99,7 +99,7 @@ export const ALL_EVENTS = [
     category: "Football",
     ticketPrice: 25000,
     description: "Europe's elite clubs battle for the ultimate crown in club football. Feel the intense drama and electric atmosphere of the UCL Final.",
-    image: "/src/assets/events/football-ucl.jpg"
+    image: "/assets/events/football-ucl.jpg"
   },
   {
     id: "football-elclasico",
@@ -110,7 +110,7 @@ export const ALL_EVENTS = [
     category: "Football",
     ticketPrice: 15000,
     description: "The historic rivalry resumes. Experience the passion, skill, and bragging rights of Barcelona taking on Real Madrid at Camp Nou.",
-    image: "/src/assets/events/football-elclasico.jpg"
+    image: "/assets/events/football-elclasico.jpg"
   },
   {
     id: "football-arsenal",
@@ -121,7 +121,7 @@ export const ALL_EVENTS = [
     category: "Football",
     ticketPrice: 9500,
     description: "A fierce London derby full of tactical brilliance, local rivalry, and high intensity. Watch Arsenal take on Chelsea live at Emirates Stadium.",
-    image: "/src/assets/events/football-arsenal.png"
+    image: "/assets/events/football-arsenal.png"
   },
   {
     id: "football-manutd",
@@ -132,7 +132,7 @@ export const ALL_EVENTS = [
     category: "Football",
     ticketPrice: 12000,
     description: "The northwest derby of English football. Two giants collision in a high-stakes, action-packed clash at Old Trafford.",
-    image: "/src/assets/events/football-manutd.png"
+    image: "/assets/events/football-manutd.png"
   },
   {
     id: "football-bayern",
@@ -143,7 +143,7 @@ export const ALL_EVENTS = [
     category: "Football",
     ticketPrice: 11000,
     description: "Experience Der Klassiker live at the Allianz Arena. The two giants of German football battle for Bundesliga supremacy in an intense atmosphere.",
-    image: "/src/assets/events/football-bayern.png"
+    image: "/assets/events/football-bayern.png"
   },
 
   // Cricket
@@ -156,7 +156,7 @@ export const ALL_EVENTS = [
     category: "Cricket",
     ticketPrice: 18000,
     description: "The ultimate cricket rivalry. Witness the explosive atmosphere and intense competition as India plays Pakistan in front of 132,000 screaming fans.",
-    image: "/src/assets/events/cricket-indpak.jpg"
+    image: "/assets/events/cricket-indpak.jpg"
   },
   {
     id: "cricket-ipl",
@@ -167,7 +167,7 @@ export const ALL_EVENTS = [
     category: "Cricket",
     ticketPrice: 12500,
     description: "The grand finale of the world's most lucrative and thrilling cricket tournament. Experience the boundary-clearing hits and fireworks.",
-    image: "/src/assets/events/cricket-ipl.jpg"
+    image: "/assets/events/cricket-ipl.jpg"
   },
   {
     id: "cricket-wtc",
@@ -178,7 +178,7 @@ export const ALL_EVENTS = [
     category: "Cricket",
     ticketPrice: 8500,
     description: "The pinnacle of Test Match cricket. Watch the world's top two test nations compete in a 5-day battle of grit, strategy, and skill at the historic Lord's Cricket Ground.",
-    image: "/src/assets/events/cricket-wtc.png"
+    image: "/assets/events/cricket-wtc.png"
   },
   {
     id: "cricket-micsk",
@@ -189,7 +189,7 @@ export const ALL_EVENTS = [
     category: "Cricket",
     ticketPrice: 9500,
     description: "The El Clasico of IPL. Witness the intense rivalry between Mumbai Indians and Chennai Super Kings live at the historic Wankhede Stadium.",
-    image: "/src/assets/events/cricket-micsk.png"
+    image: "/assets/events/cricket-micsk.png"
   },
   {
     id: "f1-british",
@@ -200,7 +200,7 @@ export const ALL_EVENTS = [
     category: "Formula 1",
     ticketPrice: 12000,
     description: "Experience the speed and drama of the British Grand Prix live at the historic Silverstone Circuit. Feel the roar of F1 engines as drivers tackle Copse, Becketts, and Stowe.",
-    image: "/src/assets/events/f1-silverstone.jpg"
+    image: "/assets/events/f1-silverstone.jpg"
   },
   {
     id: "f1-belgian",
@@ -211,7 +211,7 @@ export const ALL_EVENTS = [
     category: "Formula 1",
     ticketPrice: 12000,
     description: "Witness Formula 1 at Spa-Francorchamps. Experience the legendary Eau Rouge and Radillon corner combination as drivers tackle the ultimate test of courage and machinery.",
-    image: "/src/assets/events/f1-spa.jpg"
+    image: "/assets/events/f1-spa.jpg"
   },
   {
     id: "f1-italian",
@@ -222,7 +222,7 @@ export const ALL_EVENTS = [
     category: "Formula 1",
     ticketPrice: 12000,
     description: "Feel the passion of the Tifosi at the Italian Grand Prix in Monza. The 'Temple of Speed' hosts high-speed racing action and historic podium celebrations.",
-    image: "/src/assets/events/f1-monza.jpg"
+    image: "/assets/events/f1-monza.jpg"
   },
   {
     id: "f1-singapore",
@@ -233,7 +233,7 @@ export const ALL_EVENTS = [
     category: "Formula 1",
     ticketPrice: 15000,
     description: "The original Formula 1 night race. Watch drivers tackle the tight and demanding Marina Bay street layout under spectacular floodlights.",
-    image: "/src/assets/events/f1-singapore.jpg"
+    image: "/assets/events/f1-singapore.jpg"
   },
   {
     id: "f1-abudhabi",
@@ -244,6 +244,6 @@ export const ALL_EVENTS = [
     category: "Formula 1",
     ticketPrice: 15000,
     description: "The spectacular twilight season finale of the F1 championship. Witness the crowning of champions under the floodlights at Yas Marina Circuit.",
-    image: "/src/assets/events/f1-yasmarina.jpg"
+    image: "/assets/events/f1-yasmarina.jpg"
   }
 ];

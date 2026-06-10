@@ -7,9 +7,9 @@ export const EVENT_CATEGORIES = {
     gradientTo: "#d946ef",
     ctaHue: "#D4AF37",
     backgrounds: [
-      "/src/assets/events/concert-coldplay.jpg",
-      "/src/assets/events/concert-weeknd.jpg",
-      "/src/assets/events/concert-diljit.jpg"
+      "/assets/events/concert-coldplay.jpg",
+      "/assets/events/concert-weeknd.jpg",
+      "/assets/events/concert-diljit.jpg"
     ],
     vibe: "Concert Arena Live",
     bookingCssVars: {
@@ -27,9 +27,9 @@ export const EVENT_CATEGORIES = {
     gradientTo: "#60a5fa",
     ctaHue: "#D4AF37",
     backgrounds: [
-      "/src/assets/events/cricket-ipl.jpg",
-      "/src/assets/events/cricket-indpak.jpg",
-      "/src/assets/events/cricket-wtc.jpg"
+      "/assets/events/cricket-ipl.jpg",
+      "/assets/events/cricket-indpak.jpg",
+      "/assets/events/cricket-wtc.jpg"
     ],
     vibe: "Cricket Grandstand",
     bookingCssVars: {
@@ -47,9 +47,9 @@ export const EVENT_CATEGORIES = {
     gradientTo: "#34d399",
     ctaHue: "#D4AF37",
     backgrounds: [
-      "/src/assets/events/football-fifa.jpg",
-      "/src/assets/events/football-ucl.jpg",
-      "/src/assets/events/football-elclasico.jpg"
+      "/assets/events/football-fifa.jpg",
+      "/assets/events/football-ucl.jpg",
+      "/assets/events/football-elclasico.jpg"
     ],
     vibe: "Stadium Grand Pitch",
     bookingCssVars: {
@@ -67,11 +67,11 @@ export const EVENT_CATEGORIES = {
     gradientTo: "#7f1d1d",
     ctaHue: "#ef4444",
     backgrounds: [
-      "/src/assets/events/f1-silverstone.jpg",
-      "/src/assets/events/f1-spa.jpg",
-      "/src/assets/events/f1-monza.jpg",
-      "/src/assets/events/f1-singapore.jpg",
-      "/src/assets/events/f1-yasmarina.jpg"
+      "/assets/events/f1-silverstone.jpg",
+      "/assets/events/f1-spa.jpg",
+      "/assets/events/f1-monza.jpg",
+      "/assets/events/f1-singapore.jpg",
+      "/assets/events/f1-yasmarina.jpg"
     ],
     vibe: "F1 Grand Prix",
     bookingCssVars: {
@@ -84,49 +84,49 @@ export const EVENT_CATEGORIES = {
 };
 
 export const CUSTOM_EVENT_BACKGROUNDS = {
-  coldplay: ["/src/assets/events/concert-coldplay.jpg"],
-  weeknd: ["/src/assets/events/concert-weeknd.jpg"],
-  diljit: ["/src/assets/events/concert-diljit.jpg"],
-  arijit: ["/src/assets/events/concert-arijit.jpg"],
-  dualipa: ["/src/assets/events/concert-dualipa.jpg"],
-  sheeran: ["/src/assets/events/concert-edsheeran.jpg"],
-  dragons: ["/src/assets/events/concert-imaginedragons.jpg"],
-  bts: ["/src/assets/events/concert-bts.jpg"],
-  fifa: ["/src/assets/events/football-fifa.jpg"],
-  ucl: ["/src/assets/events/football-ucl.jpg"],
-  "el clasico": ["/src/assets/events/football-elclasico.jpg"],
-  "manchester united": ["/src/assets/events/football-manutd.png"],
-  arsenal: ["/src/assets/events/football-arsenal.png"],
-  bayern: ["/src/assets/events/football-bayern.png"],
-  dortmund: ["/src/assets/events/football-bayern.png"],
-  "india vs pakistan": ["/src/assets/events/cricket-indpak.jpg"],
-  ipl: ["/src/assets/events/cricket-ipl.jpg"],
-  wtc: ["/src/assets/events/cricket-wtc.png"],
-  micsk: ["/src/assets/events/cricket-micsk.png"],
-  "mumbai indians": ["/src/assets/events/cricket-micsk.png"],
-  metlife: ["/src/assets/venues/metlife.jpg"],
-  wembley: ["/src/assets/venues/wembley.jpg"],
-  campnou: ["/src/assets/venues/campnou.jpg"],
-  bernabeu: ["/src/assets/venues/bernabeu.jpg"],
-  modi: ["/src/assets/venues/modi.jpg"],
-  dypatil: ["/src/assets/venues/dypatil.jpg"],
-  emirates: ["/src/assets/venues/emirates.png"],
-  oldtrafford: ["/src/assets/venues/oldtrafford.png"],
-  allianz: ["/src/assets/venues/allianz.png"],
-  wankhede: ["/src/assets/venues/wankhede.png"],
-  lords: ["/src/assets/venues/lords.png"],
-  silverstone: ["/src/assets/events/f1-silverstone.jpg"],
-  spa: ["/src/assets/events/f1-spa.jpg"],
-  "belgian grand prix": ["/src/assets/events/f1-spa.jpg"],
-  monza: ["/src/assets/events/f1-monza.jpg"],
-  "italian grand prix": ["/src/assets/events/f1-monza.jpg"],
-  singapore: ["/src/assets/events/f1-singapore.jpg"],
-  "singapore grand prix": ["/src/assets/events/f1-singapore.jpg"],
-  "abu dhabi": ["/src/assets/events/f1-yasmarina.jpg"],
-  "yas marina": ["/src/assets/events/f1-yasmarina.jpg"]
+  coldplay: ["/assets/events/concert-coldplay.jpg"],
+  weeknd: ["/assets/events/concert-weeknd.jpg"],
+  diljit: ["/assets/events/concert-diljit.jpg"],
+  arijit: ["/assets/events/concert-arijit.jpg"],
+  dualipa: ["/assets/events/concert-dualipa.jpg"],
+  sheeran: ["/assets/events/concert-edsheeran.jpg"],
+  dragons: ["/assets/events/concert-imaginedragons.jpg"],
+  bts: ["/assets/events/concert-bts.jpg"],
+  fifa: ["/assets/events/football-fifa.jpg"],
+  ucl: ["/assets/events/football-ucl.jpg"],
+  "el clasico": ["/assets/events/football-elclasico.jpg"],
+  "manchester united": ["/assets/events/football-manutd.png"],
+  arsenal: ["/assets/events/football-arsenal.png"],
+  bayern: ["/assets/events/football-bayern.png"],
+  dortmund: ["/assets/events/football-bayern.png"],
+  "india vs pakistan": ["/assets/events/cricket-indpak.jpg"],
+  ipl: ["/assets/events/cricket-ipl.jpg"],
+  wtc: ["/assets/events/cricket-wtc.png"],
+  micsk: ["/assets/events/cricket-micsk.png"],
+  "mumbai indians": ["/assets/events/cricket-micsk.png"],
+  metlife: ["/assets/venues/metlife.jpg"],
+  wembley: ["/assets/venues/wembley.jpg"],
+  campnou: ["/assets/venues/campnou.jpg"],
+  bernabeu: ["/assets/venues/bernabeu.jpg"],
+  modi: ["/assets/venues/modi.jpg"],
+  dypatil: ["/assets/venues/dypatil.jpg"],
+  emirates: ["/assets/venues/emirates.png"],
+  oldtrafford: ["/assets/venues/oldtrafford.png"],
+  allianz: ["/assets/venues/allianz.png"],
+  wankhede: ["/assets/venues/wankhede.png"],
+  lords: ["/assets/venues/lords.png"],
+  silverstone: ["/assets/events/f1-silverstone.jpg"],
+  spa: ["/assets/events/f1-spa.jpg"],
+  "belgian grand prix": ["/assets/events/f1-spa.jpg"],
+  monza: ["/assets/events/f1-monza.jpg"],
+  "italian grand prix": ["/assets/events/f1-monza.jpg"],
+  singapore: ["/assets/events/f1-singapore.jpg"],
+  "singapore grand prix": ["/assets/events/f1-singapore.jpg"],
+  "abu dhabi": ["/assets/events/f1-yasmarina.jpg"],
+  "yas marina": ["/assets/events/f1-yasmarina.jpg"]
 };
 
-export const HOME_DEFAULT_BACKGROUND = "/src/assets/venues/wembley.jpg";
+export const HOME_DEFAULT_BACKGROUND = "/assets/venues/wembley.jpg";
 
 export const getCategoryFromEvent = (eventName = "") => {
   const name = eventName.toLowerCase();
