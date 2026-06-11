@@ -49,55 +49,92 @@ export default function TicketView() {
     }
 
     // 3. Fallback: If ticket is still not found (e.g. opened on a new device/browser with empty local storage),
-    // deterministically generate a realistic ticket based on the ticketId hash so it ALWAYS opens the correct ticket!
+    // decode the details directly from the ticketId!
     if (!foundTicket && ticketId) {
-      // Extract numbers from ticketId (e.g. BS-123456 -> 123456)
+      // Extract numbers from ticketId (e.g. BS-041232 -> 041232)
       const matches = ticketId.match(/\d+/);
-      const seedNum = matches ? parseInt(matches[0], 10) : 0;
+      const rawNumStr = matches ? matches[0] : "";
       
-      if (seedNum > 0 && ALL_EVENTS.length > 0) {
-        const eventIndex = seedNum % ALL_EVENTS.length;
-        const event = ALL_EVENTS[eventIndex];
+      if (rawNumStr && ALL_EVENTS.length > 0) {
+        // Pad to 6 digits just in case it was parsed as a number and lost leading zeros
+        const idStr = rawNumStr.padStart(6, '0');
+        const seedNum = parseInt(idStr, 10);
         
-        // Deterministic details
-        const quantity = (seedNum % 3) + 1; // 1 to 3 seats
-        const rows = ["A", "B", "C", "D", "E"];
-        const row = rows[seedNum % rows.length];
-        
+        const eventIdx = parseInt(idStr.substring(0, 2), 10);
+        const sectorIdx = parseInt(idStr.substring(2, 3), 10);
+        const rowIdx = parseInt(idStr.substring(3, 4), 10);
+        const seatStart = parseInt(idStr.substring(4, 5), 10);
+        const quantityDigit = parseInt(idStr.substring(5, 6), 10);
+
+        let event = null;
+        let quantity = 1;
         let sectionName = "General Admission";
-        if (event.category === "Formula 1") {
-          const sectors = ["Main Grandstand", "Turn 1 Grandstand", "Pit Lane Grandstand", "Champions Club", "Paddock Club"];
-          sectionName = sectors[seedNum % sectors.length];
+        let seats = [];
+        let bookingReference = "BR-UNKNOWN";
+        let price = 0;
+
+        // Verify if eventIdx is within range. If not, it is an old/random ID and we fall back to simple modulo.
+        if (eventIdx < ALL_EVENTS.length) {
+          event = ALL_EVENTS[eventIdx];
+          quantity = quantityDigit === 0 ? 10 : quantityDigit;
+          
+          const rows = ["A", "B", "C", "D", "E"];
+          const row = rows[rowIdx >= 0 && rowIdx < rows.length ? rowIdx : 0];
+
+          if (event.category === "Formula 1") {
+            const sectors = ["Main Grandstand", "Turn 1 Grandstand", "Pit Lane Grandstand", "Champions Club", "Paddock Club"];
+            sectionName = sectors[sectorIdx >= 0 && sectorIdx < sectors.length ? sectorIdx : 0];
+          } else {
+            const sectors = ["General Admission", "Premium Stand", "VIP Box / Lounge"];
+            sectionName = sectors[sectorIdx >= 0 && sectorIdx < sectors.length ? sectorIdx : 0];
+          }
+
+          const seatNumStart = seatStart >= 1 && seatStart <= 8 ? seatStart : 1;
+          for (let i = 0; i < quantity; i++) {
+            seats.push(`${row}-${seatNumStart + i}`);
+          }
+          bookingReference = `BR-${(seedNum * 17).toString(36).substring(0, 7).toUpperCase()}`;
+          price = event.ticketPrice * quantity;
         } else {
-          const sectors = ["General Admission", "Premium Stand", "VIP Box / Lounge"];
-          sectionName = sectors[seedNum % sectors.length];
+          // Fallback for old/random IDs:
+          const eventIndexFallback = seedNum % ALL_EVENTS.length;
+          event = ALL_EVENTS[eventIndexFallback];
+          quantity = (seedNum % 3) + 1;
+          const rows = ["A", "B", "C", "D", "E"];
+          const row = rows[seedNum % rows.length];
+          if (event.category === "Formula 1") {
+            const sectors = ["Main Grandstand", "Turn 1 Grandstand", "Pit Lane Grandstand", "Champions Club", "Paddock Club"];
+            sectionName = sectors[seedNum % sectors.length];
+          } else {
+            const sectors = ["General Admission", "Premium Stand", "VIP Box / Lounge"];
+            sectionName = sectors[seedNum % sectors.length];
+          }
+          for (let i = 0; i < quantity; i++) {
+            seats.push(`${row}-${(seedNum % 8) + 1 + i}`);
+          }
+          bookingReference = `BR-${(seedNum * 17).toString(36).substring(0, 7).toUpperCase()}`;
+          price = event.ticketPrice * quantity;
         }
 
-        const seats = [];
-        for (let i = 0; i < quantity; i++) {
-          seats.push(`${row}-${(seedNum % 8) + 1 + i}`);
+        if (event) {
+          foundTicket = {
+            id: `tkt-${seedNum}`,
+            eventId: event.id,
+            name: event.title,
+            venue: event.venue,
+            location: event.location,
+            image: event.image,
+            date: event.date,
+            quantity: quantity,
+            section: sectionName,
+            seats: seats,
+            price: price,
+            ticketId: ticketId,
+            bookingReference: bookingReference,
+            qrCode: `briteseats_ticket_${seedNum}_${ticketId}`,
+            status: "VALID"
+          };
         }
-
-        const bookingReference = `BR-${(seedNum * 17).toString(36).substring(0, 7).toUpperCase()}`;
-        const price = event.ticketPrice * quantity;
-
-        foundTicket = {
-          id: `tkt-${seedNum}`,
-          eventId: event.id,
-          name: event.title,
-          venue: event.venue,
-          location: event.location,
-          image: event.image,
-          date: event.date,
-          quantity: quantity,
-          section: sectionName,
-          seats: seats,
-          price: price,
-          ticketId: ticketId,
-          bookingReference: bookingReference,
-          qrCode: `briteseats_ticket_${seedNum}_${ticketId}`,
-          status: "VALID"
-        };
       }
     }
 

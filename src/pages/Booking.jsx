@@ -310,7 +310,22 @@ export default function Booking() {
       return;
     }
 
-    const ticketId = `BS-${Math.floor(100000 + Math.random() * 900000)}`;
+    // Calculate indices for encoding
+    const eventIndex = ALL_EVENTS.findIndex(evt => evt.id === event.id);
+    const sectorIndex = sectors.findIndex(s => s.id === selectedSection);
+    const firstSeat = selectedSeats[0] || "A-1";
+    const rowIndex = firstSeat.charCodeAt(0) - 65; // A = 0, B = 1, etc.
+    const seatStart = parseInt(firstSeat.split("-")[1], 10) || 1;
+    const quantity = selectedSeats.length;
+
+    // Build the 6-digit encoded string
+    const p1 = String(eventIndex !== -1 ? eventIndex : 0).padStart(2, '0');
+    const p2 = String(sectorIndex !== -1 ? sectorIndex : 0);
+    const p3 = String(rowIndex >= 0 && rowIndex < 10 ? rowIndex : 0);
+    const p4 = String(seatStart >= 1 && seatStart <= 8 ? seatStart : 1);
+    const p5 = String(quantity === 10 ? 0 : quantity >= 1 && quantity <= 9 ? quantity : 1);
+
+    const ticketId = `BS-${p1}${p2}${p3}${p4}${p5}`;
     const bookingReference = `BR-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
     const ticketPayload = {
       id: `tkt-${Date.now()}`,
