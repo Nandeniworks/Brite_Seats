@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🎟️ BriteSeats
 
 ### Premium Event & Stadium Ticket Booking Platform
@@ -15,7 +13,8 @@ Discover. Reserve. Experience.
 
 ### 🎫 Premium Ticket Booking Experience for Concerts, Sports & Formula 1
 
-<img src="ADD_HERO_SCREENSHOT_HERE" width="100%" />
+<img width="1419" height="834" alt="Screenshot 2026-06-11 at 1 04 02 PM" src="https://github.com/user-attachments/assets/5e45681b-ad20-48ed-85c6-a5013405f4b7" />
+ 
 
 </div>
 
@@ -114,58 +113,59 @@ The project was developed as part of **Problem Statement No. 16** for the React.
 # 📸 Screenshots
 
 ## Landing Experience
+<img width="1393" height="833" alt="Screenshot 2026-06-11 at 1 10 29 PM" src="https://github.com/user-attachments/assets/7592eb7e-3535-45b4-8afa-71b713251391" />
 
-![Landing](screenshots/landing.png)
+
 
 ---
 
 ## Events Explorer
 
-![Events](screenshots/events.png)
+<img width="1433" height="830" alt="Screenshot 2026-06-11 at 1 05 13 PM" src="https://github.com/user-attachments/assets/c3fd67a0-4501-4e07-95a9-7375ec7654ea" />
+
+<img width="1430" height="831" alt="Screenshot 2026-06-11 at 1 11 20 PM" src="https://github.com/user-attachments/assets/e34e32ae-5de6-4c9b-93d5-177d07562a51" />
+
+
 
 ---
 
 ## Venue Discovery
+![Screenshot 2026-06-11 at 1 05 56 PM](https://github.com/user-attachments/assets/46adf08c-3e5e-4973-aa59-52959f37a85b)
 
-![Venues](screenshots/venues.png)
+![Screenshot 2026-06-11 at 1 06 04 PM](https://github.com/user-attachments/assets/b0bb6ed3-7209-4aa6-893b-297e72a444c7)
+
+
 
 ---
 
 ## Interactive Seat Selection
+<img width="1136" height="830" alt="Screenshot 2026-06-11 at 1 06 59 PM" src="https://github.com/user-attachments/assets/d08f0696-be3e-4a06-81c8-b1231ed03d86" />
 
-![Seats](screenshots/seats.png)
+
 
 ---
 
 ## Booking Workflow
+<img width="1419" height="837" alt="Screenshot 2026-06-11 at 1 07 34 PM" src="https://github.com/user-attachments/assets/ec3c7ada-c467-4217-afe8-c51a5a4414dd" />
 
-![Booking](screenshots/booking.png)
+
 
 ---
 
 ## Digital Ticket Generation
 
-![Ticket](screenshots/ticket.png)
+<img width="1385" height="835" alt="Screenshot 2026-06-11 at 1 07 53 PM" src="https://github.com/user-attachments/assets/f8d46a23-bd4a-4d71-bd90-e0770ed650f2" />
 
----
-
-## My Tickets Dashboard
-
-![My Tickets](screenshots/mytickets.png)
 
 ---
 
 ## User Profile
 
-![Profile](screenshots/profile.png)
+<img width="1416" height="836" alt="Screenshot 2026-06-11 at 1 08 16 PM" src="https://github.com/user-attachments/assets/f8ebf7a0-f21d-4c16-8cbb-6ffd0bb22ed5" />
+
 
 ---
 
-## Formula 1 Experience
-
-![Formula 1](screenshots/f1.png)
-
----
 
 ## 🏗️ Project Structure
 
@@ -221,13 +221,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-🔗 ADD_VERCEL_LINK_HERE
-
----
-
-## 📂 GitHub Repository
-
-🔗 https://github.com/Nandeniworks/Brite_Seats
+🔗 https://brite-seats.vercel.app/
 
 ---
 
