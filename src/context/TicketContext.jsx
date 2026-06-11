@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import { convertToUSD, convertFromUSD } from "../lib/currencyUtils";
 import { buildEventThemePack } from "../lib/buildBookingThemePack";
 import { generateSchedule } from "../lib/aiSchedule";
+import { ALL_EVENTS } from "../data/eventImages";
 
 const TicketContext = createContext();
 
@@ -33,8 +34,8 @@ export const TicketProvider = ({ children }) => {
     }
   };
 
-  const [bookings, setBookings] = useState(
-    getFromLocal("bookings", [
+  const [bookings, setBookings] = useState(() => {
+    const rawBookings = getFromLocal("bookings", [
       {
         id: "session-coldplay-1",
         venue: {
@@ -64,8 +65,76 @@ export const TicketProvider = ({ children }) => {
         savedEvents: [],
         expenses: [],
       },
-    ])
-  );
+    ]);
+
+    // Migration: Update existing ticket IDs to the new encoded layout
+    let migrated = false;
+    const updatedBookings = rawBookings.map(b => {
+      if (b.tickets && Array.isArray(b.tickets)) {
+        const updatedTickets = b.tickets.map(tkt => {
+          // Find matching event
+          const eventIndex = ALL_EVENTS.findIndex(evt => evt.id === tkt.eventId || evt.title === tkt.name);
+          if (eventIndex === -1) return tkt;
+
+          const event = ALL_EVENTS[eventIndex];
+          const category = event.category || "";
+          const isF1 = category.toLowerCase().includes("formula 1") || category.toLowerCase().includes("f1") || (tkt.name && tkt.name.toLowerCase().includes("grand prix"));
+          
+          let sectorIndex = 0;
+          const sectorsList = isF1 ? [
+            { id: "main", name: "Main Grandstand" },
+            { id: "turn1", name: "Turn 1 Grandstand" },
+            { id: "pit", name: "Pit Lane Grandstand" },
+            { id: "champions", name: "Champions Club" },
+            { id: "paddock", name: "Paddock Club" }
+          ] : [
+            { id: "vip", name: "VIP Box / Lounge" },
+            { id: "premium", name: "Premium Stand" },
+            { id: "general", name: "General Admission" }
+          ];
+
+          const matchedSectorIdx = sectorsList.findIndex(s => s.name === tkt.section);
+          sectorIndex = matchedSectorIdx !== -1 ? matchedSectorIdx : 0;
+
+          // Seating index
+          const firstSeat = tkt.seats?.[0] || "A-1";
+          const rowIndex = firstSeat.charCodeAt(0) - 65;
+          const seatStart = parseInt(firstSeat.split("-")[1], 10) || 1;
+          const quantity = tkt.quantity || tkt.seats?.length || 1;
+
+          const p1 = String(eventIndex).padStart(2, '0');
+          const p2 = String(sectorIndex);
+          const p3 = String(rowIndex >= 0 && rowIndex < 10 ? rowIndex : 0);
+          const p4 = String(seatStart >= 1 && seatStart <= 8 ? seatStart : 1);
+          const p5 = String(quantity === 10 ? 0 : quantity >= 1 && quantity <= 9 ? quantity : 1);
+
+          const expectedId = `BS-${p1}${p2}${p3}${p4}${p5}`;
+
+          if (tkt.ticketId !== expectedId) {
+            migrated = true;
+            return {
+              ...tkt,
+              ticketId: expectedId,
+              qrCode: `briteseats_ticket_${Date.now()}_${expectedId}`
+            };
+          }
+          return tkt;
+        });
+        return { ...b, tickets: updatedTickets };
+      }
+      return b;
+    });
+
+    if (migrated) {
+      try {
+        localStorage.setItem("briteseats-bookings", JSON.stringify(updatedBookings));
+      } catch (e) {
+        console.warn("[MIGRATION] Failed to save bookings", e);
+      }
+      return updatedBookings;
+    }
+    return rawBookings;
+  });
 
   const [activeBookingId, setActiveBookingId] = useState(
     getFromLocal("active-booking-id", "session-coldplay-1")
