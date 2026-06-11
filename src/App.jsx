@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar    from "./components/Navbar";
 import Footer    from "./components/Footer";
 import AuthGuard from "./components/AuthGuard";
@@ -29,12 +29,15 @@ const LoadingFallback = () => (
 );
 
 function App() {
+  const location = useLocation();
+  const isTicketPage = location.pathname.startsWith("/ticket/");
+
   return (
     <ThemeProvider>
       <ScrollToTop />
       <MotionBackground />
       <div className="min-h-screen flex flex-col relative z-10" style={{ backgroundColor: "transparent" }}>
-        <Navbar />
+        {!isTicketPage && <Navbar />}
         <main className="flex-1 flex flex-col">
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
@@ -54,7 +57,7 @@ function App() {
             </Routes>
           </Suspense>
         </main>
-        <Footer />
+        {!isTicketPage && <Footer />}
       </div>
     </ThemeProvider>
   );
