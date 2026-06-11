@@ -600,7 +600,7 @@ const F1Layout = ({ ticket, qrUrl }) => {
 };
 
 // Main TicketStub Component
-const TicketStub = ({ ticket }) => {
+export const TicketStub = ({ ticket }) => {
   const ticketRef = useRef(null);
   const containerRef = useRef(null);
   const [scale, setScale] = useState(1);
@@ -626,7 +626,7 @@ const TicketStub = ({ ticket }) => {
 
   // Generate dynamic QR code encoding ticket URL
   useEffect(() => {
-    const qrText = `https://briteseats.vercel.app/ticket/${ticket.ticketId || "BS-DEFAULT"}`;
+    const qrText = `https://brite-seats.vercel.app/ticket/${ticket.ticketId || "BS-DEFAULT"}`;
     
     QRCode.toDataURL(qrText, {
       margin: 4,

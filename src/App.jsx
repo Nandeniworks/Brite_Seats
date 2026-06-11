@@ -19,6 +19,7 @@ const Pricing   = lazy(() => import("./pages/Pricing"));
 const MyTickets = lazy(() => import("./pages/MyTickets"));
 const Weather   = lazy(() => import("./pages/Weather"));
 const VenueDetail = lazy(() => import("./pages/VenueDetail"));
+const TicketView = lazy(() => import("./pages/TicketView"));
 
 // Simple loading fallback that matches the premium aesthetic
 const LoadingFallback = () => (
@@ -49,6 +50,7 @@ function App() {
               <Route path="/pricing"  element={<Pricing />}   />
               <Route path="/weather"  element={<Weather />}   />
               <Route path="/venue/:id" element={<VenueDetail />} />
+              <Route path="/ticket/:ticketId" element={<TicketView />} />
             </Routes>
           </Suspense>
         </main>
