@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
-import { convertToUSD, convertFromUSD } from "../lib/currencyUtils";
 import { buildEventThemePack } from "../lib/buildBookingThemePack";
 import { generateSchedule } from "../lib/aiSchedule";
 import { ALL_EVENTS } from "../data/eventImages";
@@ -44,7 +43,6 @@ export const TicketProvider = ({ children }) => {
           lng: -0.2796,
         },
         budget: 50000,
-        currency: "INR",
         schedule: [],
         supportChecks: [
           {
@@ -154,7 +152,6 @@ export const TicketProvider = ({ children }) => {
         gallery: [],
         expenses: [],
         budget: 5000,
-        currency: "INR",
         supportChecks: [],
         savedEvents: [],
       }
@@ -202,7 +199,6 @@ export const TicketProvider = ({ children }) => {
         lng,
       },
       budget: 5000,
-      currency: "INR",
       schedule: generateSchedule(normalizedName, lat, lng),
       supportChecks: [
         {
@@ -262,7 +258,6 @@ export const TicketProvider = ({ children }) => {
       lng: 0,
     },
     budget = 5000,
-    currency = "INR",
     schedule = [],
     supportChecks = [],
     gallery = [],
@@ -273,7 +268,6 @@ export const TicketProvider = ({ children }) => {
 
   const setVenue = (newVenue) => updateActiveBooking({ venue: newVenue });
   const setBudget = (newBudget) => updateActiveBooking({ budget: newBudget });
-  const setCurrency = (newCurrency) => updateActiveBooking({ currency: newCurrency });
   const setSchedule = (newSchedule) => updateActiveBooking({ schedule: newSchedule });
   const setGallery = (newGallery) => updateActiveBooking({ gallery: newGallery });
   const setTickets = (newTickets) => updateActiveBooking({ tickets: newTickets });
@@ -485,9 +479,6 @@ export const TicketProvider = ({ children }) => {
     totalExpense,
     addExpense,
     deleteExpense,
-
-    currency,
-    setCurrency,
 
     supportChecks,
     toggleSupportCheck,

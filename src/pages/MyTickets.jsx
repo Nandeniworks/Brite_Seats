@@ -159,10 +159,25 @@ const handleDownloadPDF = async (ticketRef, ticketId) => {
   }
 };
 
+// Derive row + seatNumbers display from a ticket (supports mixed-section bookings)
+const getSeatsDisplay = (ticket) => {
+  const seats = ticket.seats || [];
+  const uniqueRows = [...new Set(seats.map(s => s.split("-")[0]).filter(Boolean))];
+  const row = uniqueRows.length === 1 ? uniqueRows[0] : uniqueRows.length > 1 ? uniqueRows.join("/") : "—";
+
+  if (ticket.seatDetails && ticket.seatDetails.length > 0) {
+    // Rich format: show R1, A2, C3 etc.
+    const seatNums = ticket.seatDetails.map(s => `${s.row}${s.col}`).join(", ");
+    return { row, seatNumbers: seatNums };
+  }
+  // Legacy flat format
+  const seatNumbers = seats.map(s => s.split("-")[1]).filter(Boolean).join(", ") || "N/A";
+  return { row, seatNumbers };
+};
+
 // Layout: Concert tickets
 const ConcertLayout = ({ ticket, qrUrl }) => {
-  const row = ticket.seats?.[0]?.split("-")?.[0] || "A";
-  const seatNumbers = ticket.seats?.map(s => s.split("-")[1]).join(", ") || "N/A";
+  const { row, seatNumbers } = getSeatsDisplay(ticket);
   const bookingRef = ticket.bookingReference || `BR-${ticket.ticketId?.replace('BS-', '') || 'UNKNOWN'}`;
   
   return (
@@ -254,8 +269,7 @@ const ConcertLayout = ({ ticket, qrUrl }) => {
 
 // Layout: Football tickets
 const FootballLayout = ({ ticket, qrUrl }) => {
-  const row = ticket.seats?.[0]?.split("-")?.[0] || "A";
-  const seatNumbers = ticket.seats?.map(s => s.split("-")[1]).join(", ") || "N/A";
+  const { row, seatNumbers } = getSeatsDisplay(ticket);
   const bookingRef = ticket.bookingReference || `BR-${ticket.ticketId?.replace('BS-', '') || 'UNKNOWN'}`;
   
   return (
@@ -353,8 +367,7 @@ const FootballLayout = ({ ticket, qrUrl }) => {
 
 // Layout: Cricket tickets
 const CricketLayout = ({ ticket, qrUrl }) => {
-  const row = ticket.seats?.[0]?.split("-")?.[0] || "A";
-  const seatNumbers = ticket.seats?.map(s => s.split("-")[1]).join(", ") || "N/A";
+  const { row, seatNumbers } = getSeatsDisplay(ticket);
   const bookingRef = ticket.bookingReference || `BR-${ticket.ticketId?.replace('BS-', '') || 'UNKNOWN'}`;
   
   const isTestMatch = ticket.name?.toLowerCase().includes("test") || ticket.name?.toLowerCase().includes("wtc");
@@ -449,8 +462,7 @@ const CricketLayout = ({ ticket, qrUrl }) => {
 
 // Layout: F1 tickets
 const F1Layout = ({ ticket, qrUrl }) => {
-  const row = ticket.seats?.[0]?.split("-")?.[0] || "A";
-  const seatNumbers = ticket.seats?.map(s => s.split("-")[1]).join(", ") || "N/A";
+  const { row, seatNumbers } = getSeatsDisplay(ticket);
   const bookingRef = ticket.bookingReference || `BR-${ticket.ticketId?.replace('BS-', '') || 'UNKNOWN'}`;
   
   const getTrackSvg = (venueName) => {

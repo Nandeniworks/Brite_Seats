@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTicket } from "../context/TicketContext";
@@ -60,13 +60,16 @@ export default function Booking() {
   const [selectedSection, setSelectedSection] = useState(() => {
     return localStorage.getItem("briteseats_selected_section") || "general";
   });
-  const [ticketQuantity, setTicketQuantity] = useState(() => {
-    const saved = localStorage.getItem("briteseats_ticket_quantity");
-    return saved ? parseInt(saved, 10) : 2;
-  });
+  // selectedSeats: array of { id, row, col, sectionId, sectionName, price }
   const [selectedSeats, setSelectedSeats] = useState(() => {
     const saved = localStorage.getItem("briteseats_selected_seats");
-    return saved ? JSON.parse(saved) : [];
+    if (!saved) return [];
+    try {
+      const parsed = JSON.parse(saved);
+      // Discard legacy string-array format
+      if (!Array.isArray(parsed) || (parsed.length > 0 && typeof parsed[0] === "string")) return [];
+      return parsed;
+    } catch { return []; }
   });
   const [bookingFeedback, setBookingFeedback] = useState(null);
 
@@ -141,8 +144,6 @@ export default function Booking() {
   // Countdown Timer State
   const [timeLeft, setTimeLeft] = useState(600);
 
-  // Track initial mount to avoid overwriting restored selectedSeats
-  const isInitial = useRef(true);
 
   const getSectionFromRow = (r) => {
     if (event?.category === "Formula 1") {
@@ -183,97 +184,53 @@ export default function Booking() {
     );
   }, []);
 
-  // Update selected seats automatically when quantity or section changes, unless loaded initially
-  useEffect(() => {
-    if (isInitial.current) {
-      isInitial.current = false;
-      if (selectedSeats.length > 0) {
-        return;
-      }
-    }
-
-    const available = [];
-    seatGrid.forEach(row => {
-      row.forEach(seat => {
-        const sec = getSectionFromRow(seat.row);
-        if (sec === selectedSection && !seat.reserved) {
-          available.push(seat.id);
-        }
-      });
-    });
-    setSelectedSeats(available.slice(0, ticketQuantity));
-  }, [ticketQuantity, selectedSection, seatGrid]);
-
+  // Toggle a seat on/off — freely across any section
   const handleSeatClick = (seatId, reserved) => {
     if (reserved) return;
 
-    // Determine section based on seat ID row
     const row = seatId.charAt(0);
-    const newSection = getSectionFromRow(row);
+    const col = parseInt(seatId.split("-")[1], 10);
+    const secId = getSectionFromRow(row);
+    const sec = sectors.find(s => s.id === secId) || sectors[0];
+    const seatPrice = event ? Math.round(event.ticketPrice * sec.multiplier) : 0;
 
-    if (newSection !== selectedSection) {
-      setSelectedSection(newSection);
-      setSelectedSeats([seatId]);
-      setTicketQuantity(1);
-    } else {
-      setSelectedSeats(prev => {
-        if (prev.includes(seatId)) {
-          const updated = prev.filter(s => s !== seatId);
-          setTicketQuantity(Math.max(1, updated.length));
-          return updated;
-        } else {
-          if (prev.length >= 10) {
-            alert("Maximum 10 tickets can be booked at once.");
-            return prev;
-          }
-          const updated = [...prev, seatId];
-          setTicketQuantity(updated.length);
-          return updated;
-        }
-      });
-    }
+    setSelectedSeats(prev => {
+      const exists = prev.some(s => s.id === seatId);
+      if (exists) return prev.filter(s => s.id !== seatId);
+      if (prev.length >= 10) {
+        alert("Maximum 10 tickets can be booked at once.");
+        return prev;
+      }
+      return [...prev, { id: seatId, row, col, sectionId: secId, sectionName: sec.name, price: seatPrice }];
+    });
   };
 
+  // Section panel highlights the selected tier for reference — no auto-fill
   const handleSectionChange = (sectionId) => {
     setSelectedSection(sectionId);
-    const available = [];
-    seatGrid.forEach(row => {
-      row.forEach(seat => {
-        const sec = getSectionFromRow(seat.row);
-        if (sec === sectionId && !seat.reserved) {
-          available.push(seat.id);
-        }
-      });
-    });
-    setSelectedSeats(available.slice(0, ticketQuantity));
   };
 
-  // Pricing Calculations
-  const sectionObj = useMemo(() => sectors.find(s => s.id === selectedSection) || sectors[0], [sectors, selectedSection]);
-  const basePricePerTicket = event ? Math.round(event.ticketPrice * sectionObj.multiplier) : 0;
-  
-  // Derived state calculations (Feature 6)
-  const subtotal = basePricePerTicket * ticketQuantity;
+  // Pricing — sum each individual seat's price
+  const ticketQuantity = selectedSeats.length;
+  const subtotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
   const gstTax = Math.round(subtotal * 0.18);
   const bookingFee = ticketQuantity * 50;
   const total = subtotal + gstTax + bookingFee;
 
-  // Basket memory persistence: save to localStorage on changes
+  // Basket memory — persist rich seat objects
   useEffect(() => {
     if (selectedSeats.length > 0) {
       localStorage.setItem("briteseats_selected_seats", JSON.stringify(selectedSeats));
       localStorage.setItem("briteseats_selected_section", selectedSection);
-      localStorage.setItem("briteseats_ticket_quantity", ticketQuantity.toString());
       localStorage.setItem("briteseats_total_price", total.toString());
     } else {
       localStorage.removeItem("briteseats_selected_seats");
       localStorage.removeItem("briteseats_selected_section");
-      localStorage.removeItem("briteseats_ticket_quantity");
       localStorage.removeItem("briteseats_total_price");
     }
-  }, [selectedSeats, selectedSection, ticketQuantity, total]);
+  }, [selectedSeats, selectedSection, total]);
 
-  // Booking countdown timer effect
+  // Booking countdown timer
   useEffect(() => {
     if (selectedSeats.length === 0) {
       setTimeLeft(600);
@@ -284,15 +241,10 @@ export default function Booking() {
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timer);
-          // Release selected seats and clear booking state
           setSelectedSeats([]);
-          setTicketQuantity(2);
-          
           localStorage.removeItem("briteseats_selected_seats");
           localStorage.removeItem("briteseats_selected_section");
-          localStorage.removeItem("briteseats_ticket_quantity");
           localStorage.removeItem("briteseats_total_price");
-
           alert("Your reservation has expired.");
           return 600;
         }
@@ -310,12 +262,12 @@ export default function Booking() {
       return;
     }
 
-    // Calculate indices for encoding
+    // Encode ticket ID using first seat for backward compatibility
     const eventIndex = ALL_EVENTS.findIndex(evt => evt.id === event.id);
-    const sectorIndex = sectors.findIndex(s => s.id === selectedSection);
-    const firstSeat = selectedSeats[0] || "A-1";
-    const rowIndex = firstSeat.charCodeAt(0) - 65; // A = 0, B = 1, etc.
-    const seatStart = parseInt(firstSeat.split("-")[1], 10) || 1;
+    const firstSeat = selectedSeats[0];
+    const sectorIndex = sectors.findIndex(s => s.id === firstSeat.sectionId);
+    const rowIndex = firstSeat.row.charCodeAt(0) - 65;
+    const seatStart = firstSeat.col;
     const quantity = selectedSeats.length;
 
     // Build the 6-digit encoded string
@@ -327,6 +279,11 @@ export default function Booking() {
 
     const ticketId = `BS-${p1}${p2}${p3}${p4}${p5}`;
     const bookingReference = `BR-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+
+    // Section label: single section or "Mixed" for multi-section bookings
+    const uniqueSectionNames = [...new Set(selectedSeats.map(s => s.sectionName))];
+    const sectionLabel = uniqueSectionNames.length === 1 ? uniqueSectionNames[0] : "Mixed";
+
     const ticketPayload = {
       id: `tkt-${Date.now()}`,
       eventId: event.id,
@@ -335,9 +292,10 @@ export default function Booking() {
       location: event.location,
       image: event.image,
       date: event.date,
-      quantity: ticketQuantity,
-      section: sectionObj.name,
-      seats: selectedSeats,
+      quantity: selectedSeats.length,
+      section: sectionLabel,
+      seats: selectedSeats.map(s => s.id),
+      seatDetails: selectedSeats,
       price: finalTotal,
       ticketId: ticketId,
       bookingReference: bookingReference,
@@ -346,17 +304,15 @@ export default function Booking() {
 
     const success = addTicket(ticketPayload);
     if (success) {
-      // Clear booking state & localStorage upon successful completion
       setSelectedSeats([]);
       localStorage.removeItem("briteseats_selected_seats");
       localStorage.removeItem("briteseats_selected_section");
-      localStorage.removeItem("briteseats_ticket_quantity");
       localStorage.removeItem("briteseats_total_price");
 
       setBookingFeedback("Booking Confirmed!");
       setTimeout(() => {
         setBookingFeedback(null);
-        navigate("/my-tickets"); // Route to tickets list
+        navigate("/my-tickets");
       }, 1500);
     }
   };
@@ -439,9 +395,10 @@ export default function Booking() {
           <SeatMapErrorBoundary>
             {/* Section Selection */}
             <div className="cream-card grain-el p-6 md:p-8 space-y-6">
-              <h3 className="text-xl font-black text-ink border-b border-black/5 pb-2 font-serif" style={{ fontFamily: "Playfair Display, serif" }}>
-                1. Choose Seating Section
-              </h3>
+              <div className="border-b border-black/5 pb-2 space-y-0.5">
+                <h3 className="text-xl font-black text-ink font-serif" style={{ fontFamily: "Playfair Display, serif" }}>Seating Sections & Pricing</h3>
+                <p className="text-[10px] font-bold text-ink-muted">Select seats freely on the map below — mix and match sections.</p>
+              </div>
               <div className="space-y-4">
                 {sectors.map(sec => (
                   <button
@@ -484,11 +441,7 @@ export default function Booking() {
             <BookingSidebar 
               event={event}
               venue={venue}
-              sectionObj={sectionObj}
-              ticketQuantity={ticketQuantity}
-              setTicketQuantity={setTicketQuantity}
               selectedSeats={selectedSeats}
-              basePricePerTicket={basePricePerTicket}
               subtotal={subtotal}
               gstTax={gstTax}
               bookingFee={bookingFee}

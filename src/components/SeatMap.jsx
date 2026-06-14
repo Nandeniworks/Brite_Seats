@@ -35,7 +35,7 @@ const SeatMap = ({ seatGrid, selectedSeats, handleSeatClick, isF1 }) => {
       case "Escape":
         e.preventDefault();
         const seatToDeselect = seatGrid[rIdx][cIdx];
-        if (selectedSeats.includes(seatToDeselect.id)) {
+        if (selectedSeats.some(s => s.id === seatToDeselect.id)) {
           handleSeatClick(seatToDeselect.id, false);
         }
         break;
@@ -62,7 +62,7 @@ const SeatMap = ({ seatGrid, selectedSeats, handleSeatClick, isF1 }) => {
       <div className="flex items-center justify-between border-b border-black/5 pb-2">
         <div className="space-y-1">
           <h3 className="text-xl font-black text-ink font-serif" style={{ fontFamily: "Playfair Display, serif" }}>
-            2. Select Your Seats
+            Select Your Seats
           </h3>
           <p className="text-[10px] text-ink-muted font-bold">
             Interactive Seat Map. Use Arrow keys + Enter to book, Esc to deselect.
@@ -110,7 +110,7 @@ const SeatMap = ({ seatGrid, selectedSeats, handleSeatClick, isF1 }) => {
                   {isF1 ? (row[0].row === "A" ? "Paddock" : "Champions") : `Row ${row[0].row}`}
                 </span>
                 {row.map((seat, cIdx) => {
-                  const isSelected = selectedSeats.includes(seat.id);
+                  const isSelected = selectedSeats.some(s => s.id === seat.id);
                   const isFocused = focusedSeat && focusedSeat.rIdx === rIdx && focusedSeat.cIdx === cIdx;
                   return (
                     <button
@@ -167,7 +167,7 @@ const SeatMap = ({ seatGrid, selectedSeats, handleSeatClick, isF1 }) => {
                     {isF1 ? (row[0].row === "C" ? "Pit Lane" : "Turn 1") : `Row ${row[0].row}`}
                   </span>
                   {row.map((seat, cIdx) => {
-                    const isSelected = selectedSeats.includes(seat.id);
+                    const isSelected = selectedSeats.some(s => s.id === seat.id);
                     const isFocused = focusedSeat && focusedSeat.rIdx === rIdx && focusedSeat.cIdx === cIdx;
                     return (
                       <button
@@ -225,7 +225,7 @@ const SeatMap = ({ seatGrid, selectedSeats, handleSeatClick, isF1 }) => {
                     {isF1 ? "Main GP" : `Row ${row[0].row}`}
                   </span>
                   {row.map((seat, cIdx) => {
-                    const isSelected = selectedSeats.includes(seat.id);
+                    const isSelected = selectedSeats.some(s => s.id === seat.id);
                     const isFocused = focusedSeat && focusedSeat.rIdx === rIdx && focusedSeat.cIdx === cIdx;
                     return (
                       <button
