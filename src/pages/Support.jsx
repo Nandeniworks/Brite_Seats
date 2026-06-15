@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTicket } from "../context/TicketContext";
 import { useTheme } from "../context/ThemeContext";
+import { useChat } from "../context/ChatContext";
 import { GlassCard } from "../components/ui/GlassCard";
 import { AnimatedContainer, AnimatedItem } from "../components/ui/AnimatedContainer";
 import SupportCenter from "../components/SupportCenter";
@@ -13,6 +14,7 @@ import {
 export default function Support() {
   const { venue, eventThemePack } = useTicket();
   const { isDark } = useTheme();
+  const { openChat } = useChat();
 
   // Form states
   const [formData, setFormData] = useState({
@@ -58,11 +60,7 @@ export default function Support() {
   const [activeChat, setActiveChat] = useState(false);
 
   const startChat = () => {
-    setActiveChat(true);
-    alert("Initiating Live Chat agent connection... Please hold.");
-    setTimeout(() => {
-      setActiveChat(false);
-    }, 3000);
+    openChat();
   };
 
   return (

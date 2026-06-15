@@ -6,6 +6,7 @@ import AuthGuard from "./components/AuthGuard";
 import ScrollToTop from "./components/ScrollToTop";
 import { ThemeProvider } from "./context/ThemeContext";
 import MotionBackground from "./components/MotionBackground";
+import SupportChatModal from "./components/SupportChatModal";
 
 // Lazy load pages for better performance
 const Home      = lazy(() => import("./pages/Home"));
@@ -59,6 +60,7 @@ function App() {
         </main>
         {!isTicketPage && <Footer />}
       </div>
+      <SupportChatModal />
     </ThemeProvider>
   );
 }
